@@ -7,7 +7,11 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('userinfo', views.UserInfoView)
+router.register('books', views.BooksView)
+
+
 urlpatterns = [
     path('', include(router.urls)),
-    path('api/', views.json_create, name='json')
+    path('api/user/', views.json_create_user, name='json'),
+    path('api/books/', views.json_create_books, name='json'),
 ]

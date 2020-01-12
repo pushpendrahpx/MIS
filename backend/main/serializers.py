@@ -13,3 +13,14 @@ class UserInfoSerializer(serializers.ModelSerializer):
             'ph_no',
             'email',
         )
+    
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Books
+        fields = (
+            'name',
+            'issued_date',
+            'issued_by',
+            'is_issued',
+        )
