@@ -26,6 +26,8 @@ def json_create_user(request):
         json_data = json.dumps(ls_seiral)
         json_data = json.loads(json_data)
         json_data = json.loads(json_data)
+        u = UserInfo(**json_data)
+        u.save()
     else:
         json_data = ''
     return JsonResponse(json_data, safe=False)
