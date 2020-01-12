@@ -21,10 +21,13 @@ class BooksView(viewsets.ModelViewSet):
 
 def json_create_user(request):
     ls = UserInfo.objects.all()
-    ls_seiral = serializers.serialize('json', ls)
-    json_data = json.dumps(ls_seiral)
-    json_data = json.loads(json_data)
-    json_data = json.loads(json_data)
+    if request.method == 'POST':    
+        ls_seiral = serializers.serialize('json', ls)
+        json_data = json.dumps(ls_seiral)
+        json_data = json.loads(json_data)
+        json_data = json.loads(json_data)
+    else:
+        json_data = ''
     return JsonResponse(json_data, safe=False)
 
 

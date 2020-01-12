@@ -1,5 +1,9 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.auth import authenticate, login 
+from django.contrib.auth.models import User
+from rest_framework import exceptions
+
 
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,7 +17,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
             'ph_no',
             'email',
         )
-    
+
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +28,7 @@ class BookSerializer(serializers.ModelSerializer):
             'issued_by',
             'is_issued',
         )
+
+
+
+    
