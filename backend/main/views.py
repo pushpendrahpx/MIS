@@ -1,12 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
 from .models import *
 from .serializers import *
 from django.http import JsonResponse
 from django.core import serializers
+from  django.contrib.auth.models import User, auth 
 import json
-
-from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework.response import Response
+from rest_framework.views import APIView
+ 
 
 class UserInfoView(viewsets.ModelViewSet):
     queryset = UserInfo.objects.all()
@@ -19,35 +21,20 @@ class BooksView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly)
 
-@ensure_csrf_cookie
-def get_user(request):
-    if request.method == 'POST':
-        print(request.POST['phone'])
-        ls = UserInfo.objects.all()
-        ls_seiral = serializers.serialize('json', ls)
-        json_data = json.dumps(ls_seiral)
-        json_data = json.loads(json_data)
-        json_data = json.loads(json_data)
-        return JsonResponse(json_data, safe=False)
-    else:
-        return JsonResponse('{"name":"Failed POST bro, it is GET"}',safe=False)
-    
 
 def json_create_user(request):
     ls = UserInfo.objects.all()
-    if request.method == 'POST':   
-        # name = str(request.POST['name'])
-        phone = int(request.POST['phone']) 
-        ls_seiral = serializers.serialize('json', ls)
-        json_data = json.dumps(ls_seiral)
-        json_data = json.loads(json_data)
-        json_data = json.loads(json_data)
-        json_data = '{"name":"GVHJBN"}'
-        u = UserInfo(**json_data)
-        u.save()
-        
+    if request.method == 'POST':    
+        serializer = UserInfoSerializer(data = request.da)
+        if serializer.is_valid():
+            serializer.save()
+            ls_seiral = serializers.serialize('json', ls)
+            json_data = json.dumps(ls_seiral)
+            json_data = json.loads(json_data)
+            json_data = json.loads(json_data)
+            return Response(serializer.data, status=200)   
     else:
-        json_data = ''
+        json_data = {}
     return JsonResponse(json_data, safe=False)
 
 
